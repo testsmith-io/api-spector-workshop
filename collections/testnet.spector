@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "id": "fe592801-708e-4a87-9cb2-305d7632e648",
+  "name": "Testnet",
+  "description": "",
+  "rootFolder": {
+    "id": "34bc969a-a6f3-4389-aa78-55ad8b120425",
+    "name": "root",
+    "description": "",
+    "folders": [],
+    "requestIds": [
+      "35c309c9-f959-476f-9915-dce560558fa4"
+    ]
+  },
+  "requests": {
+    "35c309c9-f959-476f-9915-dce560558fa4": {
+      "id": "35c309c9-f959-476f-9915-dce560558fa4",
+      "name": "New Request",
+      "method": "GET",
+      "url": "",
+      "headers": [],
+      "params": [],
+      "auth": {
+        "type": "none"
+      },
+      "body": {
+        "mode": "none"
+      }
+    }
+  }
+}

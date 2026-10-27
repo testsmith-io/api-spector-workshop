@@ -1,0 +1,8 @@
+{
+  "version": "1.0",
+  "collections": [
+    "collections/workshop.spector"
+  ],
+  "environments": [],
+  "activeEnvironmentId": null
+}
