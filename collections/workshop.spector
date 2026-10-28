@@ -7,15 +7,67 @@
     "id": "34bc969a-a6f3-4389-aa78-55ad8b120425",
     "name": "root",
     "description": "",
-    "folders": [],
+    "folders": [
+      {
+        "id": "1a3d5e3f-7b10-41b7-85df-5b1d814c6564",
+        "name": "Protected API",
+        "description": "Create a test that retreives a token and with that token retreive all the invoices of that signed in user.\n\nAdd a verification for the `total` property.\n\nSwagger: https://api.practicesoftwaretesting.com/api/documentation\n\nAccounts that can be used:\n\n\n| First name | Last name | Role   | E-mail                                | Password   |\n|------------|-----------|--------|---------------------------------------|------------|\n| John       | Doe       | admin  | admin@practicesoftwaretesting.com     | welcome01  |\n| Jane       | Doe       | user   | customer@practicesoftwaretesting.com  | welcome01  |\n| Jack       | Howe      | user   | customer2@practicesoftwaretesting.com | welcome01  |\n| Bob        | Smith     | user   | customer3@practicesoftwaretesting.com | pass123    |\n\n\n```flow\nflowchart LR\n  A([Start]) --> B[Get Token]\n  B --> C[Get Invoices]\n  C -->D([Done])\n```\n",
+        "folders": [],
+        "requestIds": []
+      },
+      {
+        "id": "e0fc1664-803f-464e-8e7c-88f301c47518",
+        "name": "Masked data",
+        "description": "Go to the settings and try different settings of the Privacy tab.",
+        "folders": [],
+        "requestIds": []
+      },
+      {
+        "id": "a2ff3057-d540-4cea-9902-e4d330b2be5c",
+        "name": "Customize the UI",
+        "description": "Go to the settings and try different settings of the Appearance tab.\n\nLike: language, theme, size",
+        "folders": [],
+        "requestIds": []
+      }
+    ],
     "requestIds": [
-      "35c309c9-f959-476f-9915-dce560558fa4"
+      "35c309c9-f959-476f-9915-dce560558fa4",
+      "f629ac52-8652-4be8-8f39-b99c67c074c0",
+      "e510c1c3-50ad-45ba-a150-0d4ab7588d1e",
+      "19e29fe7-da56-4695-87aa-a6ffb46cdf2d",
+      "ba634e3c-c208-4b06-9251-b2f8b04218d9"
+    ],
+    "childOrder": [
+      {
+        "type": "folder",
+        "id": "a2ff3057-d540-4cea-9902-e4d330b2be5c"
+      },
+      {
+        "type": "request",
+        "id": "35c309c9-f959-476f-9915-dce560558fa4"
+      },
+      {
+        "type": "request",
+        "id": "f629ac52-8652-4be8-8f39-b99c67c074c0"
+      },
+      {
+        "type": "request",
+        "id": "e510c1c3-50ad-45ba-a150-0d4ab7588d1e"
+      },
+      {
+        "type": "folder",
+        "id": "1a3d5e3f-7b10-41b7-85df-5b1d814c6564"
+      },
+      {
+        "type": "folder",
+        "id": "e0fc1664-803f-464e-8e7c-88f301c47518"
+      }
     ]
   },
   "requests": {
     "35c309c9-f959-476f-9915-dce560558fa4": {
       "id": "35c309c9-f959-476f-9915-dce560558fa4",
-      "name": "New Request",
+      "name": "Status (use response contextmenu)",
       "method": "GET",
       "url": "",
       "headers": [],
@@ -26,7 +78,70 @@
       "body": {
         "mode": "none"
       },
-      "description": "Perform a `GET` request in the status endpoint of practicesoftwaretesting.com and validate its results."
+      "description": "Perform a `GET` request on the status endpoint of practicesoftwaretesting.com and validate its results."
+    },
+    "f629ac52-8652-4be8-8f39-b99c67c074c0": {
+      "id": "f629ac52-8652-4be8-8f39-b99c67c074c0",
+      "name": "Products (use response contextmenu)",
+      "method": "GET",
+      "url": "",
+      "headers": [],
+      "params": [],
+      "auth": {
+        "type": "none"
+      },
+      "body": {
+        "mode": "none"
+      },
+      "description": "Perform a `GET` request on the products endpoint of practicesoftwaretesting.com and extract or vaerify the price based on the product name.\n\nSwagger: https://api.practicesoftwaretesting.com/api/documentation\n\n"
+    },
+    "e510c1c3-50ad-45ba-a150-0d4ab7588d1e": {
+      "id": "e510c1c3-50ad-45ba-a150-0d4ab7588d1e",
+      "name": "Brands (create environment)",
+      "method": "GET",
+      "url": "",
+      "headers": [],
+      "params": [],
+      "auth": {
+        "type": "none"
+      },
+      "body": {
+        "mode": "none"
+      },
+      "description": "Perform a `GET` request on the `brands` endpoint of practicesoftwaretesting.com\n\nBut more important: create an environment and define all the duplicated values and replace them in the requests."
+    },
+    "19e29fe7-da56-4695-87aa-a6ffb46cdf2d": {
+      "id": "19e29fe7-da56-4695-87aa-a6ffb46cdf2d",
+      "name": "Register (use faker)",
+      "method": "GET",
+      "url": "",
+      "headers": [],
+      "params": [],
+      "auth": {
+        "type": "none"
+      },
+      "body": {
+        "mode": "none",
+        "json": "",
+        "raw": ""
+      },
+      "description": "Perform a `POST` request on the `users/register` endpoint of practicesoftwaretesting.com\n\nUse the built-in faker implementation to generate data, like: name, email, address\n\nUse the following pre-request script to generate a Date Of Birth that can be used in the body:\n\n\n```\nconst dob = faker.date.birthdate({ min: 18, max: 70, mode: 'age' });\nsp.variables.set('dob', dayjs(dob).format('YYYY-MM-DD'));\n```\n\n\n\nSwagger: https://api.practicesoftwaretesting.com/api/documentation\n\n\n",
+      "preRequestScript": ""
+    },
+    "ba634e3c-c208-4b06-9251-b2f8b04218d9": {
+      "id": "ba634e3c-c208-4b06-9251-b2f8b04218d9",
+      "name": "SOAP service",
+      "method": "GET",
+      "url": "",
+      "headers": [],
+      "params": [],
+      "auth": {
+        "type": "none"
+      },
+      "body": {
+        "mode": "none"
+      },
+      "description": "Import the SOAP 1.2 `Add` and `Multiply` actions from http://www.dneonline.com/calculator.asmx?WSDL\n\n\n- Click on Import (next to the logo)\n- Select WSDL\n- Specify: http://www.dneonline.com/calculator.asmx?WSDL\n- Only import `Add` and `Multiply` to a new collection\n- change the SOAP bodies and add a verification\n\n"
     }
   }
 }

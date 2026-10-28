@@ -1,0 +1,65 @@
+{
+  "version": "1.0",
+  "id": "ae032bc6-7367-49ba-9874-f2666b8d84d5",
+  "name": "Workshop - part 2",
+  "description": "",
+  "rootFolder": {
+    "id": "227ad39a-805f-4306-a3ab-fba98ba9f771",
+    "name": "root",
+    "description": "",
+    "folders": [
+      {
+        "id": "dd9f9b5c-76e0-43b3-886e-66189bb3d715",
+        "name": "Data Driven Testing",
+        "description": "Build the data table first, then point requests at it.\n\n- Go to the Data tab.\n- Add the columns first: email, password. Then add one row per account from the table.\n- Now add a request to the folder: POST on users/login, with a body that references the columns.\n- Click Run folder; it runs the request once per row (eg. 4 iterations, one per account).\n- Add an assertion that each returns 200 and an access_token.",
+        "folders": [],
+        "requestIds": []
+      },
+      {
+        "id": "f5b47c85-d1f7-43a6-b968-0bdcce83e74a",
+        "name": "Flows",
+        "description": "Chain requests visually instead of running them in order.\n\n- In the left icon rail, open the Flows view and create a new flow.\n- Click Add block → add a Request block and pick your Get Token request.\n- Click Add block again for a second Request block and pick Get Invoices.\n- Drag from the first block's handle to the second to connect them.\n- Press Run on the run bar; watch the status paint onto each block and the output panel fill.\n",
+        "folders": [],
+        "requestIds": []
+      },
+      {
+        "id": "8b067a33-8fee-4759-9559-28adb3d72b8d",
+        "name": "Contract Testing",
+        "description": "# Consumer-driven contract testing\n\nA **consumer** declares exactly what it needs from a **provider** — that\ndeclaration *is* the contract. The consumer builds against a mock of it, and the\nprovider is later verified against the same contract, so a breaking change is\ncaught before it ships.\n\nIn this exercise the consumer `web-shop` expects a `stock` (number) field on\nproducts — but the real API returns `in_stock` (boolean). You'll watch the\ncontract catch it, then fix it.\n\n```flow\nflowchart LR\n  A([Design contract]) --> B[Create mock]\n  B --> C[Develop consumer]\n  C --> D[Verify provider]\n  D -->|mismatch| E([Fix & re-verify])\n```\n\nSwagger: https://api.practicesoftwaretesting.com/api/documentation\n\n## 1 — Open the contract (consumer side)\n\n- Open the provided **`contract-testing`** workspace (**Open workspace** → pick the folder).\n- Left rail → **Contract testing** → open the **Contract Designer**.\n- Select **web-shop → practicesoftwaretesting** and look at the two interactions.\n- Note the `/products` response the consumer expects — it includes `\"stock\": 42`.\n\n## 2 — Build against a mock (no provider yet)\n\n- In the designer, click **Create mock from contract**.\n- Open **Mocks**, start the mock, and `GET <mock-url>/products`.\n- The mock returns `stock` — the consumer can develop happily, even though no real provider has that field.\n\n## 3 — Verify the real provider\n\nRun the provider verification against the live API:\n\n```bash\napi-spector contract run --workspace . --mode provider-live \\\n  --provider-base-url https://api.practicesoftwaretesting.com\n```\n\n- `/brands` passes; **`/products` fails**:\n\n  ```text\n  GET List products\n    · schema_violation: must have required property 'stock'\n  ```\n\n- The provider returns `in_stock` (boolean), not `stock` (number). The contract just caught the mismatch.\n\n## 4 — Resolve it (the consumer↔provider conversation)\n\n- In `collections/products-contract.spector`, change the `/products` expectation from `stock` (number) to **`in_stock`** (boolean).\n- In the Contract Designer, change the `/products` example body `\"stock\": 42` to **`\"in_stock\": true`**.\n- Re-run the command from step 3 → **4/4 passed**.\n\n> You just did the full loop: design → mock → verify → catch a break → align.\n> If the provider ever drops or renames `in_stock` again, step 3 goes red immediately.\n",
+        "folders": [],
+        "requestIds": []
+      },
+      {
+        "id": "e16b2d43-09b4-4f5c-b402-2df2af224745",
+        "name": "Mocks (dynamic data)",
+        "description": "Serve a fake API locally, then make the response react to the request.\n\n- Left icon rail → Mocks → Create mock server. Open it → + Add route.\n- Start static: method GET, path `/products`, status 200, a small JSON body. Start the mock, copy its URL, and GET <mock-url>/products.\n\n\nNow make it dynamic. Change the path to `/products/:id` and the body to use templating:\n\n\n```\n{ \"id\": \"{{request.params.id}}\", \"name\": \"{{faker.commerce.productName()}}\", \"price\": \"{{faker.commerce.price()}}\" }\n```\n\n\nCall <mock-url>/products/42 a few times: id echoes 42, name/price change each call. You can also read `{{request.query.x}}` / `{{request.body}}`, or use the script field for logic (faker, dayjs, set response.statusCode).",
+        "folders": [],
+        "requestIds": []
+      }
+    ],
+    "requestIds": [],
+    "childOrder": [
+      {
+        "type": "folder",
+        "id": "dd9f9b5c-76e0-43b3-886e-66189bb3d715"
+      },
+      {
+        "type": "folder",
+        "id": "f5b47c85-d1f7-43a6-b968-0bdcce83e74a"
+      },
+      {
+        "type": "folder",
+        "id": "3dabfdbf-e3d6-42c4-b89f-c2f762aa1951"
+      },
+      {
+        "type": "folder",
+        "id": "e16b2d43-09b4-4f5c-b402-2df2af224745"
+      },
+      {
+        "type": "folder",
+        "id": "8b067a33-8fee-4759-9559-28adb3d72b8d"
+      }
+    ]
+  },
+  "requests": {}
+}
